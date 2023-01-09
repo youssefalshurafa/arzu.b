@@ -1,18 +1,16 @@
 import Image from 'next/legacy/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useContext } from 'react';
 import Layout from '../../components/Layout';
-import data from '../../utils/data';
+import Product from '../../models/Product';
+import db from '../../utils/db';
 import { Store } from '../../utils/Store';
 
-function ProductScreen() {
+export default function ProductScreen(props) {
+  const { product } = props;
   const { state, dispatch } = useContext(Store);
 
-  const { query } = useRouter();
-  const { slug } = query;
-  const product = data.products.find((x) => x.slug === slug);
   if (!product) {
     return <div>Product not Found</div>;
   }
@@ -57,7 +55,7 @@ function ProductScreen() {
             <li>{product.fabric}</li>
           </ul>
         </div>
-        <div className="card p-5">
+        <div className="card p-5 ">
           <div className="mb-2 flex justify-between">
             <div>Price</div>
             <div>LE {product.price}</div>
@@ -75,4 +73,15 @@ function ProductScreen() {
   );
 }
 
-export default ProductScreen;
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: product ? db.convertDocToObj(product) : null,
+    },
+  };
+}

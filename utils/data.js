@@ -24,9 +24,10 @@ const data = {
       slug: '801',
       image: '/images/801.jpeg',
       rating: 4.5,
-      countInStock: 20,
+      countInStock: 10,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'gray tank top',
@@ -39,6 +40,7 @@ const data = {
       countInStock: 10,
       numReviews: 4,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: true,
     },
     {
       name: 'black tracksuit',
@@ -51,6 +53,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'purple tracksuit',
@@ -63,6 +66,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'Black Tunic half zipper',
@@ -75,6 +79,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'Black and leopard Tunic long zipper',
@@ -87,6 +92,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: true,
     },
     {
       name: 'pink and baby blue capri set',
@@ -99,6 +105,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'Black and gray parrot capri set',
@@ -111,6 +118,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'Black and mint-green monster shorts set',
@@ -123,6 +131,7 @@ const data = {
       countInStock: 20,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: false,
     },
     {
       name: 'mint-green and dark-gray snoopy shorts set',
@@ -135,6 +144,7 @@ const data = {
       countInStock: 30,
       numReviews: 8,
       fabric: '95% Cotton 5% Lycra',
+      isFeatured: true,
     },
   ],
 };
