@@ -1,9 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import { Store } from '../utils/Store';
 
 function ProductItem({ product }) {
+  const { data: session } = useSession();
   const { state, dispatch } = useContext(Store);
   const addToCartHandler = () => {
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
@@ -35,9 +37,15 @@ function ProductItem({ product }) {
         </Link>
 
         <p>LE {product.price}</p>
-        <button onClick={addToCartHandler} className="primary-button w-full">
-          Add to Cart
-        </button>
+        {session ? (
+          <button onClick={addToCartHandler} className="primary-button">
+            Add to Cart
+          </button>
+        ) : (
+          <button className="rounded cursor-not-allowed bg-gray-300 py-2 px-4 shadow outline-none">
+            Add to Cart
+          </button>
+        )}
       </div>
     </div>
   );

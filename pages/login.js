@@ -83,11 +83,22 @@ function LoginScreen() {
         <div className="mb-4">
           <button className="primary-button">Login</button>
         </div>
-        <div className="mb-4">
+
+        <div className="mb-4 ">
           Don&apos;t have an account? &nbsp;
-          <Link href="register">Register</Link>
+          <Link href="register" className="underline text-blue-500">
+            Register
+          </Link>
         </div>
       </form>
+      <div>
+        <button
+          onClick={() => signIn('google')}
+          className="rounded bg-blue-300 py-2 px-4 shadow outline-none hover:bg-blue-400 active:bg-blue-500"
+        >
+          Or Sign in with Google
+        </button>
+      </div>
     </Layout>
   );
 }

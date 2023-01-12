@@ -1,12 +1,15 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { Store } from '../utils/Store';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/solid';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import Cookies from 'js-cookie';
 export default function Layout({ title, children }) {
   const { status, data: session } = useSession();
   const { state } = useContext(Store);
@@ -16,6 +19,10 @@ export default function Layout({ title, children }) {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   }, [cart.cartItems]);
 
+  const logOutHandler = () => {
+    Cookies.remove('cart');
+    signOut();
+  };
   return (
     <>
       <Head>
@@ -27,7 +34,7 @@ export default function Layout({ title, children }) {
       <ToastContainer position=" bottom-center" limit={1} />
       <div className="flex min-h-screen flex-col justify-between">
         <header>
-          <nav className="flex h-12 justify-between shadow-md items-center px-4">
+          <nav className="flex h-20 justify-between shadow-md items-center px-4">
             <Link href="/">
               <p className="text-2xl font-bold">Arzu</p>
             </Link>
@@ -50,7 +57,7 @@ export default function Layout({ title, children }) {
             </div>
             <div className="flex">
               <Link href="/cart">
-                <p className="p-2">
+                <p className="p-2 ">
                   Cart
                   {cartItemsCount > 0 && (
                     <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
@@ -63,7 +70,71 @@ export default function Layout({ title, children }) {
                 {status === 'loading' ? (
                   'Loading'
                 ) : session?.user ? (
-                  session.user.name
+                  <Menu as="div" className="relative inline-block z-10">
+                    <div>
+                      <Menu.Button className="text-blue-600 flex">
+                        {session.user.name}
+                        <ChevronDownIcon
+                          className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+                          aria-hidden="true"
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="px-1 py-1 ">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={`${
+                                  active
+                                    ? 'bg-violet-500 text-white'
+                                    : 'text-gray-900'
+                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              >
+                                Profile
+                              </button>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={`${
+                                  active
+                                    ? 'bg-violet-500 text-white'
+                                    : 'text-gray-900'
+                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              >
+                                Order History
+                              </button>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                onClick={logOutHandler}
+                                className={`${
+                                  active
+                                    ? 'bg-violet-500 text-white'
+                                    : 'text-gray-900'
+                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                              >
+                                Sign Out
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
                 ) : (
                   <Link href="/login">
                     <p>Login</p>
